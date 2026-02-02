@@ -1,0 +1,93 @@
+services:
+  agent-impl-001:
+    container_name: devswarm-impl-001
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN}
+      HOME: /tmp
+      AUTO_PR: 'true'
+      AUTO_PUSH: 'true'
+      BASE_BRANCH: main
+      BRANCH: feature/impl-001
+      ISSUE_NUMBER: '1'
+      TASK_ID: IMPL-001
+      TASK_NAME: Core Models 구현
+      TDD_MODE: 'true'
+    image: devswarm-agent:latest
+    restart: 'no'
+    volumes:
+    - ${WORKSPACE:-.}:/workspace
+    - ${HOME}/.gitconfig:/tmp/.gitconfig:ro
+    - ${HOME}/.config/gh:/tmp/.config/gh:ro
+
+  agent-impl-002:
+    container_name: devswarm-impl-002
+    user: "${UID:-1000}:${GID:-1000}"
+    depends_on:
+      agent-impl-001:
+        condition: service_completed_successfully
+    environment:
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN}
+      HOME: /tmp
+      AUTO_PR: 'true'
+      AUTO_PUSH: 'true'
+      BASE_BRANCH: main
+      BRANCH: feature/impl-002
+      ISSUE_NUMBER: '2'
+      TASK_ID: IMPL-002
+      TASK_NAME: Storage Layer 구현
+      TDD_MODE: 'true'
+    image: devswarm-agent:latest
+    restart: 'no'
+    volumes:
+    - ${WORKSPACE:-.}:/workspace
+    - ${HOME}/.gitconfig:/tmp/.gitconfig:ro
+    - ${HOME}/.config/gh:/tmp/.config/gh:ro
+
+  agent-impl-003:
+    container_name: devswarm-impl-003
+    user: "${UID:-1000}:${GID:-1000}"
+    depends_on:
+      agent-impl-002:
+        condition: service_completed_successfully
+    environment:
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN}
+      HOME: /tmp
+      AUTO_PR: 'true'
+      AUTO_PUSH: 'true'
+      BASE_BRANCH: main
+      BRANCH: feature/impl-003
+      ISSUE_NUMBER: '3'
+      TASK_ID: IMPL-003
+      TASK_NAME: CLI Commands 구현
+      TDD_MODE: 'true'
+    image: devswarm-agent:latest
+    restart: 'no'
+    volumes:
+    - ${WORKSPACE:-.}:/workspace
+    - ${HOME}/.gitconfig:/tmp/.gitconfig:ro
+    - ${HOME}/.config/gh:/tmp/.config/gh:ro
+
+  agent-impl-004:
+    container_name: devswarm-impl-004
+    user: "${UID:-1000}:${GID:-1000}"
+    depends_on:
+      agent-impl-003:
+        condition: service_completed_successfully
+    environment:
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN}
+      HOME: /tmp
+      AUTO_PR: 'true'
+      AUTO_PUSH: 'true'
+      BASE_BRANCH: main
+      BRANCH: feature/impl-004
+      ISSUE_NUMBER: '4'
+      TASK_ID: IMPL-004
+      TASK_NAME: Integration Tests
+      TDD_MODE: 'true'
+    image: devswarm-agent:latest
+    restart: 'no'
+    volumes:
+    - ${WORKSPACE:-.}:/workspace
+    - ${HOME}/.gitconfig:/tmp/.gitconfig:ro
+    - ${HOME}/.config/gh:/tmp/.config/gh:ro

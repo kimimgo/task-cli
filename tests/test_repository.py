@@ -230,7 +230,7 @@ class TestTaskRepository:
     def test_create_task_after_delete_uses_next_id(self, repo):
         """Test that new tasks after deletion use incremental IDs."""
         task1 = repo.create_task("Task 1")
-        task2 = repo.create_task("Task 2")
+        repo.create_task("Task 2")  # Create second task (ID=2)
         repo.delete_task(task1.id)
 
         task3 = repo.create_task("Task 3")

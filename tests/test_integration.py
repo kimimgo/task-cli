@@ -6,6 +6,7 @@ as a real user would, ensuring all components work together correctly.
 
 import json
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -41,13 +42,15 @@ class TestIntegration:
         """
         # Set environment variable to use custom database path
         env = {"TASK_DB_PATH": db_path}
+        # Get project root (parent of tests directory)
+        project_root = Path(__file__).parent.parent
         result = subprocess.run(
-            ["python", "-m", "src"] + args,
+            [sys.executable, "-m", "src"] + args,
             capture_output=True,
             text=True,
             check=False,
             env={**subprocess.os.environ, **env},
-            cwd="/workspace"
+            cwd=str(project_root)
         )
         if check and result.returncode != 0:
             raise subprocess.CalledProcessError(

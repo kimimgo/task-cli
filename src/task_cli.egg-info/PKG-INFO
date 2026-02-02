@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: task-cli
+Version: 0.1.0
+Summary: CLI 기반 할일 관리 도구 - DevSwarm 검증용
+Requires-Python: >=3.12
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: mypy>=1.0; extra == "dev"

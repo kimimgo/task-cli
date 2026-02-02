@@ -144,7 +144,7 @@ class TestCLI:
     def test_cmd_list_filter_by_status(self, repo):
         """Test cmd_list with status filter."""
         task1 = repo.create_task("Task 1", Priority.HIGH)
-        task2 = repo.create_task("Task 2", Priority.LOW)
+        repo.create_task("Task 2", Priority.LOW)  # Create second task (used in assertion)
         repo.mark_done(task1.id)
 
         parser = create_parser()

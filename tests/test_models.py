@@ -1,8 +1,8 @@
 """Tests for core models."""
 
-import pytest
 from datetime import datetime
-from src.models import Task, Priority, Status
+
+from src.models import Priority, Status, Task
 
 
 class TestPriority:
