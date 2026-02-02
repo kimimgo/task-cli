@@ -7,6 +7,7 @@ with fcntl-based file locking for thread-safety.
 
 import fcntl
 import json
+import os
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -51,12 +52,15 @@ class JsonStorage(Storage):
         file_path: Path to the JSON storage file
     """
 
-    def __init__(self, file_path: str = "tasks.json"):
+    def __init__(self, file_path: Optional[str] = None):
         """Initialize JsonStorage with a file path.
 
         Args:
-            file_path: Path to the JSON file for storage (default: tasks.json)
+            file_path: Path to the JSON file for storage. If None, uses
+                      TASK_DB_PATH environment variable or defaults to tasks.json
         """
+        if file_path is None:
+            file_path = os.environ.get("TASK_DB_PATH", "tasks.json")
         self.file_path = Path(file_path)
 
     def save(self, tasks: Dict[int, Task]) -> None:
