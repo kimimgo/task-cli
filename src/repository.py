@@ -30,11 +30,7 @@ class TaskRepository:
         """
         self.storage = storage or JsonStorage()
 
-    def create_task(
-        self,
-        title: str,
-        priority: Priority = Priority.MEDIUM
-    ) -> Task:
+    def create_task(self, title: str, priority: Priority = Priority.MEDIUM) -> Task:
         """Create a new task.
 
         Args:
@@ -50,12 +46,7 @@ class TaskRepository:
         next_id = max(tasks.keys(), default=0) + 1
 
         # Create task with generated ID
-        task = Task(
-            id=next_id,
-            title=title,
-            priority=priority,
-            status=Status.PENDING
-        )
+        task = Task(id=next_id, title=title, priority=priority, status=Status.PENDING)
 
         # Save task
         tasks[next_id] = task
@@ -77,11 +68,7 @@ class TaskRepository:
 
         # Filter by status if provided
         if status is not None:
-            tasks = {
-                task_id: task
-                for task_id, task in tasks.items()
-                if task.status == status
-            }
+            tasks = {task_id: task for task_id, task in tasks.items() if task.status == status}
 
         # Return sorted by ID
         return [tasks[task_id] for task_id in sorted(tasks.keys())]

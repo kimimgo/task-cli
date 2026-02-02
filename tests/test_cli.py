@@ -19,7 +19,7 @@ class TestCLI:
     @pytest.fixture
     def temp_storage(self):
         """Create a temporary storage file for testing."""
-        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as f:
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
             temp_path = f.name
         # Delete the file immediately - we just need the path
         Path(temp_path).unlink()

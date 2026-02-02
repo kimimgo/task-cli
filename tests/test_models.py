@@ -60,7 +60,7 @@ class TestTask:
             title="Complete task",
             status=Status.DONE,
             priority=Priority.HIGH,
-            created_at=created_time
+            created_at=created_time,
         )
 
         assert task.id == 1
@@ -118,14 +118,14 @@ class TestTask:
             title="Same task",
             status=Status.PENDING,
             priority=Priority.HIGH,
-            created_at=created_time
+            created_at=created_time,
         )
         task2 = Task(
             id=1,
             title="Same task",
             status=Status.PENDING,
             priority=Priority.HIGH,
-            created_at=created_time
+            created_at=created_time,
         )
 
         assert task1 == task2
@@ -139,12 +139,7 @@ class TestTask:
 
     def test_task_repr(self):
         """Test task string representation."""
-        task = Task(
-            id=1,
-            title="Test task",
-            status=Status.PENDING,
-            priority=Priority.HIGH
-        )
+        task = Task(id=1, title="Test task", status=Status.PENDING, priority=Priority.HIGH)
 
         repr_str = repr(task)
         assert "Task" in repr_str

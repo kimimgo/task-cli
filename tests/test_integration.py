@@ -19,7 +19,7 @@ class TestIntegration:
     @pytest.fixture
     def temp_db(self):
         """Create a temporary database file for testing."""
-        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as f:
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
             temp_path = f.name
         # Delete the file - CLI will create it
         Path(temp_path).unlink()
@@ -50,7 +50,7 @@ class TestIntegration:
             text=True,
             check=False,
             env={**subprocess.os.environ, **env},
-            cwd=str(project_root)
+            cwd=str(project_root),
         )
         if check and result.returncode != 0:
             raise subprocess.CalledProcessError(
@@ -218,7 +218,7 @@ class TestIntegration:
         # Verify database file was created and contains valid JSON
         db_file = Path(temp_db)
         assert db_file.exists()
-        with open(db_file, 'r') as f:
+        with open(db_file, "r") as f:
             data = json.load(f)
             assert isinstance(data, dict)
             assert "1" in data
@@ -297,7 +297,7 @@ class TestIntegration:
 
         # Final list should have 5 tasks total (deleted 1, added 1)
         result = self.run_cli(["list"], temp_db)
-        lines_with_task_id = [line for line in result.stdout.split('\n') if '#' in line]
+        lines_with_task_id = [line for line in result.stdout.split("\n") if "#" in line]
         assert len(lines_with_task_id) == 5
 
     def test_invalid_priority_shows_error(self, temp_db):
@@ -340,7 +340,7 @@ class TestIntegration:
         assert db_file.exists()
 
         # File should contain valid JSON
-        with open(db_file, 'r') as f:
+        with open(db_file, "r") as f:
             data = json.load(f)
             assert isinstance(data, dict)
             assert len(data) == 1

@@ -14,6 +14,7 @@ from typing import Optional
 
 class Priority(Enum):
     """Task priority levels."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -21,6 +22,7 @@ class Priority(Enum):
 
 class Status(Enum):
     """Task completion status."""
+
     PENDING = "pending"
     DONE = "done"
 
@@ -36,6 +38,7 @@ class Task:
         priority: Priority level of the task
         created_at: Timestamp when the task was created
     """
+
     title: str
     status: Status = Status.PENDING
     priority: Priority = Priority.MEDIUM

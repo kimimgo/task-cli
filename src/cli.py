@@ -22,10 +22,7 @@ def create_parser() -> argparse.ArgumentParser:
     Returns:
         Configured ArgumentParser instance
     """
-    parser = argparse.ArgumentParser(
-        prog="task",
-        description="CLI-based task management tool"
-    )
+    parser = argparse.ArgumentParser(prog="task", description="CLI-based task management tool")
 
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
@@ -36,16 +33,12 @@ def create_parser() -> argparse.ArgumentParser:
         "--priority",
         choices=["low", "medium", "high"],
         default="medium",
-        help="Task priority (default: medium)"
+        help="Task priority (default: medium)",
     )
 
     # List command
     list_parser = subparsers.add_parser("list", help="List tasks")
-    list_parser.add_argument(
-        "--status",
-        choices=["pending", "done"],
-        help="Filter tasks by status"
-    )
+    list_parser.add_argument("--status", choices=["pending", "done"], help="Filter tasks by status")
 
     # Done command
     done_parser = subparsers.add_parser("done", help="Mark a task as done")
@@ -94,8 +87,7 @@ def cmd_list(args: argparse.Namespace, repo: TaskRepository) -> int:
     for task in tasks:
         status_icon = "✓" if task.status == Status.DONE else " "
         print(
-            f"[{status_icon}] #{task.id} {task.title} "
-            f"[{task.priority.value}] ({task.status.value})"
+            f"[{status_icon}] #{task.id} {task.title} [{task.priority.value}] ({task.status.value})"
         )
 
     return 0

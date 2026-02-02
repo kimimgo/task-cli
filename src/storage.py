@@ -80,11 +80,11 @@ class JsonStorage(Storage):
                 "title": task.title,
                 "status": task.status.value,
                 "priority": task.priority.value,
-                "created_at": task.created_at.isoformat()
+                "created_at": task.created_at.isoformat(),
             }
 
         # Write with file locking
-        with open(self.file_path, 'w') as f:
+        with open(self.file_path, "w") as f:
             fcntl.flock(f.fileno(), fcntl.LOCK_EX)
             try:
                 json.dump(serializable_tasks, f, indent=2)
@@ -102,7 +102,7 @@ class JsonStorage(Storage):
             return {}
 
         # Read with file locking
-        with open(self.file_path, 'r') as f:
+        with open(self.file_path, "r") as f:
             fcntl.flock(f.fileno(), fcntl.LOCK_SH)
             try:
                 content = f.read().strip()
@@ -117,12 +117,13 @@ class JsonStorage(Storage):
         tasks = {}
         for task_id_str, task_data in data.items():
             from datetime import datetime
+
             task = Task(
                 id=task_data["id"],
                 title=task_data["title"],
                 status=Status(task_data["status"]),
                 priority=Priority(task_data["priority"]),
-                created_at=datetime.fromisoformat(task_data["created_at"])
+                created_at=datetime.fromisoformat(task_data["created_at"]),
             )
             tasks[int(task_id_str)] = task
 

@@ -18,7 +18,7 @@ class TestJsonStorage:
     @pytest.fixture
     def temp_file(self):
         """Create a temporary file path for testing."""
-        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as f:
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:
             temp_path = f.name
         # Delete the file immediately - we just need the path
         Path(temp_path).unlink()
@@ -42,14 +42,14 @@ class TestJsonStorage:
                 title="Test task 1",
                 status=Status.PENDING,
                 priority=Priority.HIGH,
-                created_at=datetime(2024, 1, 1, 12, 0, 0)
+                created_at=datetime(2024, 1, 1, 12, 0, 0),
             ),
             2: Task(
                 id=2,
                 title="Test task 2",
                 status=Status.DONE,
                 priority=Priority.LOW,
-                created_at=datetime(2024, 1, 2, 12, 0, 0)
+                created_at=datetime(2024, 1, 2, 12, 0, 0),
             ),
         }
 
@@ -68,7 +68,7 @@ class TestJsonStorage:
         """Test that save writes valid JSON data."""
         storage.save(sample_tasks)
 
-        with open(storage.file_path, 'r') as f:
+        with open(storage.file_path, "r") as f:
             data = json.load(f)
 
         assert "1" in data
@@ -115,7 +115,7 @@ class TestJsonStorage:
                 title="New task",
                 status=Status.PENDING,
                 priority=Priority.MEDIUM,
-                created_at=datetime(2024, 1, 3, 12, 0, 0)
+                created_at=datetime(2024, 1, 3, 12, 0, 0),
             )
         }
         storage.save(new_tasks)
@@ -159,7 +159,7 @@ class TestJsonStorage:
                 title="Test",
                 status=Status.DONE,
                 priority=Priority.HIGH,
-                created_at=datetime(2024, 1, 1)
+                created_at=datetime(2024, 1, 1),
             )
         }
         storage.save(tasks)
@@ -226,7 +226,7 @@ class TestJsonStorage:
     def test_load_handles_corrupted_json(self, storage):
         """Test that load handles corrupted JSON gracefully."""
         # Write invalid JSON
-        with open(storage.file_path, 'w') as f:
+        with open(storage.file_path, "w") as f:
             f.write("{invalid json")
 
         with pytest.raises(json.JSONDecodeError):
@@ -244,9 +244,7 @@ class TestJsonStorage:
 
     def test_special_characters_in_title(self, storage):
         """Test that special characters in title are handled correctly."""
-        tasks = {
-            1: Task(id=1, title='Task with "quotes" and \n newlines and \t tabs')
-        }
+        tasks = {1: Task(id=1, title='Task with "quotes" and \n newlines and \t tabs')}
         storage.save(tasks)
         loaded = storage.load()
 
@@ -254,10 +252,7 @@ class TestJsonStorage:
 
     def test_large_task_set(self, storage):
         """Test that storage handles large number of tasks."""
-        tasks = {
-            i: Task(id=i, title=f"Task {i}")
-            for i in range(1000)
-        }
+        tasks = {i: Task(id=i, title=f"Task {i}") for i in range(1000)}
         storage.save(tasks)
         loaded = storage.load()
 
