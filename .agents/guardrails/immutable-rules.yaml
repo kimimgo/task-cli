@@ -1,0 +1,49 @@
+# DevSwarm Guardrails
+# task-cli 프로젝트 불변 규칙
+
+version: "1.0"
+project_id: "task-cli"
+
+# 불변 규칙 (에이전트가 절대 위반해서는 안 되는 규칙)
+immutable_rules:
+  - id: GR-001
+    name: "No External Dependencies"
+    description: "표준 라이브러리와 개발 도구(pytest, ruff, mypy) 외 외부 의존성 금지"
+    severity: critical
+    check_command: "pip freeze | grep -v '^pytest\\|^ruff\\|^mypy'"
+
+  - id: GR-002
+    name: "Type Hints Required"
+    description: "모든 함수에 타입 힌트 필수"
+    severity: high
+    check_command: "mypy src/ --strict"
+
+  - id: GR-003
+    name: "Docstring Required"
+    description: "모든 공개 함수/클래스에 docstring 필수"
+    severity: medium
+    pattern: "def [^_].*\\):\\s*$"
+
+  - id: GR-004
+    name: "Test File Convention"
+    description: "테스트 파일은 test_ 접두사 필수"
+    severity: high
+    pattern: "tests/test_*.py"
+
+  - id: GR-005
+    name: "No Print Statements"
+    description: "src/ 디렉토리에 print() 문 금지 (logging 사용)"
+    severity: medium
+    check_command: "grep -r 'print(' src/ --include='*.py'"
+
+# 경고 규칙 (위반 시 경고만 표시)
+warning_rules:
+  - id: WR-001
+    name: "Long Functions"
+    description: "함수 길이 50줄 이하 권장"
+    threshold: 50
+
+  - id: WR-002
+    name: "Complex Conditions"
+    description: "조건문 중첩 3단계 이하 권장"
+    threshold: 3
